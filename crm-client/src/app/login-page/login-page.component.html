@@ -1,0 +1,54 @@
+<div class="d-flex align-items-center justify-content-center">
+  <div class="card mt-5 w-50">
+    <div class="card-body">
+      <h5 class="card-title">Login</h5>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control"
+            id="email"
+            aria-describedby="emailAlert"
+            [ngClass]="{'is-invalid': form.get('email')!.invalid && form.get('email')!.touched}"
+          >
+          <div
+            id="emailAlert"
+            class="form-text text-danger"
+            *ngIf="form.get('email')!.invalid && form.get('email')!.touched"
+          >
+            <span *ngIf="form.get('email')!.errors?.required">Email field should not be empty</span>
+            <span *ngIf="form.get('email')!.errors?.email">Enter valid email address</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label" required>Password</label>
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            id="password"
+            aria-describedby="passwordAlert"
+            [ngClass]="{'is-invalid': form.get('password')!.invalid && form.get('password')!.touched}"
+          >
+          <div
+            id="passwordAlert"
+            class="form-text text-danger"
+            *ngIf="form.get('password')!.invalid && form.get('password')!.touched"
+          >
+            <span *ngIf="form.get('password')!.errors?.required">Password field should not be empty</span>
+            <span *ngIf="form.get('password')!.errors?.minlength && form.get('password')!.errors?.minlength.requiredLength">
+              Password must be {{form.get('password')!.errors?.minlength.requiredLength}} symbols.
+              Actual value: {{form.get('password')!.errors?.minlength.actualLength}}
+            </span>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="form.invalid">Log In</button>
+      </form>
+    </div>
+  </div>
+</div>
