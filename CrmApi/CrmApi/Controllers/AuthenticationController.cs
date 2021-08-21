@@ -16,7 +16,6 @@ namespace CrmApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IAuthenticationManager _authManager;
         private readonly ILogger<AuthenticationController> _logger;
-       
 
         public AuthenticationController(UserManager<User> userManager, IAuthenticationManager authManager,
             ILogger<AuthenticationController> logger)

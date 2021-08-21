@@ -10,7 +10,7 @@ namespace CrmApi.Models
         public string Name { get; set; }
         public string ImageSource { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public IList<Category> Categories { get; set; }

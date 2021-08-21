@@ -11,7 +11,7 @@ namespace CrmApi.Models
         public int OrderNumber { get; set; }
         public DateTime Date { get; set; }
         
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
         
         public IList<OrderItem> OrderItems { get; set; }
