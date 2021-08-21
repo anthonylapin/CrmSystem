@@ -12,7 +12,5 @@ namespace CrmApi.Models
 
         public string UserId { get; set; }
         public User User { get; set; }
-
-        public IList<Category> Categories { get; set; }
     }
 }
