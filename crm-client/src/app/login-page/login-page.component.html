@@ -11,8 +11,8 @@
             class="form-control"
             id="email"
             aria-describedby="emailAlert"
-            [ngClass]="{'is-invalid': form.get('email')!.invalid && form.get('email')!.touched}"
-          >
+            [ngClass]="{ 'is-invalid': form.get('email')!.invalid && form.get('email')!.touched }"
+          />
           <div
             id="emailAlert"
             class="form-text text-danger"
@@ -30,24 +30,23 @@
             class="form-control"
             id="password"
             aria-describedby="passwordAlert"
-            [ngClass]="{'is-invalid': form.get('password')!.invalid && form.get('password')!.touched}"
-          >
+            [ngClass]="{ 'is-invalid': form.get('password')!.invalid && form.get('password')!.touched }"
+          />
           <div
             id="passwordAlert"
             class="form-text text-danger"
             *ngIf="form.get('password')!.invalid && form.get('password')!.touched"
           >
             <span *ngIf="form.get('password')!.errors?.required">Password field should not be empty</span>
-            <span *ngIf="form.get('password')!.errors?.minlength && form.get('password')!.errors?.minlength.requiredLength">
-              Password must be {{form.get('password')!.errors?.minlength.requiredLength}} symbols.
-              Actual value: {{form.get('password')!.errors?.minlength.actualLength}}
+            <span
+              *ngIf="form.get('password')!.errors?.minlength && form.get('password')!.errors?.minlength.requiredLength"
+            >
+              Password must be {{ form.get('password')!.errors?.minlength.requiredLength }} symbols. Actual value:
+              {{ form.get('password')!.errors?.minlength.actualLength }}
             </span>
           </div>
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="form.invalid || form.disabled">Log In</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || form.disabled">Log In</button>
       </form>
     </div>
   </div>

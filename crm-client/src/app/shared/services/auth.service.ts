@@ -1,16 +1,14 @@
-import {Injectable} from "@angular/core";
-import {IUser} from "../interfaces";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
-
-
+import { Injectable } from '@angular/core';
+import { IUser } from '../interfaces';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private token : string | null = null;
+  private token: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -18,11 +16,11 @@ export class AuthService {
     this.token = token;
   }
 
-  getToken() : string | null {
+  getToken(): string | null {
     return this.token;
   }
 
-  isAuthenticated() : boolean {
+  isAuthenticated(): boolean {
     return Boolean(this.token);
   }
 
@@ -31,19 +29,14 @@ export class AuthService {
     localStorage.clear();
   }
 
-  login(user: IUser) : Observable<{token: string}> {
-     return this.http.post<{token: string}>('/api/auth/login', user)
-       .pipe(
-         tap(
-           ({token}) => {
-             localStorage.setItem('auth-token', token);
-             this.setToken(token);
-           }
-         )
-       );
+  login(user: IUser): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>('/api/auth/login', user).pipe(
+      tap(({ token }) => {
+        localStorage.setItem('auth-token', token);
+        this.setToken(token);
+      })
+    );
   }
 
-  register() {
-
-  }
+  register() {}
 }
