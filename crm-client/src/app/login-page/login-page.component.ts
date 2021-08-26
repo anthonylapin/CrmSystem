@@ -22,6 +22,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
     this.route.queryParams.subscribe((params: Params) => {
       if (params['registered']) {
+        console.log('we are from register page');
         // now you can sign in to the system using your credentials
       } else if (params['accessDenied']) {
         // you have to authorize in system to proceed

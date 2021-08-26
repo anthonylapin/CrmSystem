@@ -38,5 +38,7 @@ export class AuthService {
     );
   }
 
-  register() {}
+  register(user: IUser): Observable<void> {
+    return this.http.post<void>('/api/auth/register', user);
+  }
 }
