@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../shared/services/auth.service';
+import { UiService } from '../shared/utilities/ui.service';
 
 @Component({
   selector: 'app-register-page',
@@ -38,7 +39,10 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
         });
       },
       (error) => {
-        console.warn(error);
+        const errMessage = Object.entries(error.error).reduce((acc, [k, v]) => {
+          return `${acc} ${(v as string[])[0]}`;
+        }, '');
+        UiService.alertMessage(errMessage ? errMessage : 'Something went wrong.');
         this.form.enable();
       }
     );

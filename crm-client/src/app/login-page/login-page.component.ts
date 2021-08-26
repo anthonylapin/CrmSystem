@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../shared/services/auth.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { UiService } from '../shared/utilities/ui.service';
 
 @Component({
   selector: 'app-login-page',
@@ -11,6 +12,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class LoginPageComponent implements OnInit, OnDestroy {
   form: FormGroup;
   aSub: Subscription;
+  afterRegistration: boolean = false;
+  accessDenied: boolean = false;
+  sessionExpired: boolean = false;
 
   constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {}
 
@@ -21,12 +25,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParams.subscribe((params: Params) => {
-      if (params['registered']) {
-        console.log('we are from register page');
-        // now you can sign in to the system using your credentials
-      } else if (params['accessDenied']) {
-        // you have to authorize in system to proceed
-      }
+      this.afterRegistration = Boolean(params['registered']);
+      this.accessDenied = Boolean(params['accessDenied']);
+      this.sessionExpired = Boolean(params[params['sessionExpired']]);
     });
   }
 
@@ -40,8 +41,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.form.disable();
     this.aSub = this.auth.login(this.form.value).subscribe(
       () => this.router.navigate(['/overview']),
-      (error) => {
-        console.warn('error');
+      () => {
+        UiService.alertMessage('Invalid credentials');
         this.form.enable();
       }
     );

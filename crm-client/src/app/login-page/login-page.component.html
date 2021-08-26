@@ -2,6 +2,13 @@
   <div class="card mt-5 w-50">
     <div class="card-body">
       <h5 class="card-title">Login</h5>
+      <p [ngClass]="{ 'd-none': !afterRegistration, 'd-block': afterRegistration }">
+        Now you can log in to the system using your credentials
+      </p>
+      <p [ngClass]="{ 'd-none': !accessDenied, 'd-block': accessDenied }">You need to authorize in system to proceed</p>
+      <p [ngClass]="{ 'd-none': !sessionExpired, 'd-block': sessionExpired }">
+        Your token expired. You need to authorize log in to the system again to proceed.
+      </p>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>

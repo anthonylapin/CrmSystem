@@ -4,20 +4,24 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+const localStorageAuthTokenKey = 'auth-token';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private token: string | null = null;
+  private token: string | null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.token = localStorage.getItem(localStorageAuthTokenKey);
+  }
 
   setToken(token: string | null) {
     this.token = token;
   }
 
-  getToken(): string | null {
-    return this.token;
+  getToken(): string {
+    return this.token ?? '';
   }
 
   isAuthenticated(): boolean {
@@ -32,7 +36,7 @@ export class AuthService {
   login(user: IUser): Observable<{ token: string }> {
     return this.http.post<{ token: string }>('/api/auth/login', user).pipe(
       tap(({ token }) => {
-        localStorage.setItem('auth-token', token);
+        localStorage.setItem(localStorageAuthTokenKey, `Bearer ${token}`);
         this.setToken(token);
       })
     );
