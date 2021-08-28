@@ -46,8 +46,6 @@ namespace CrmApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Authenticate([FromBody] UserDto user)
         {
-            _logger.LogDebug("Authenticate was called!");
-
             if (await _authManager.ValidateUser(user))
                 return Ok(new {Token = await _authManager.CreateToken()});
 

@@ -1,1 +1,29 @@
-<p>site-layout works!</p>
+<div id="wrapper" class="d-flex" [ngClass]="{'sb-sidenav-toggled': showSideBar}">
+    <div id="sidebar-wrapper" class="border-end bg-white">
+      <div class="sidebar-heading border-bottom bg-light">
+        CRM System
+      </div>
+      <div class="list-group list-group-flush">
+        <div *ngFor="let link of sideBarLinks">
+          <a class="list-group-item list-group-item-action list-group-item-light" [routerLink]="[link.url]">
+            {{link.name}}
+          </a>
+        </div>
+        <a href="#" class="list-group-item list-group-item-action list-group-item-light" (click)="logout($event)">
+          Sign Out
+        </a>
+      </div>
+    </div>
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container-fluid">
+          <button (click)="onSideNavToggle()" id="sidebarToggle" class="btn btn-primary">
+            Toggle Menu
+          </button>
+        </div>
+      </nav>
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+</div>
