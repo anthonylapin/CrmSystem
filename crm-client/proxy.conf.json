@@ -5,7 +5,7 @@
     "logLevel": "debug",
     "changeOrigin": true
   },
-  "/Images/*": {
+  "/Files/*": {
     "target": "https://localhost:5001",
     "secure": false,
     "logLevel": "debug",

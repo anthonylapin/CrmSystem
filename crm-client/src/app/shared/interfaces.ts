@@ -5,7 +5,7 @@ export interface IUser {
 
 export interface ICategory {
   name: string;
-  imageSrc?: string;
+  imageSource?: string;
   user?: string;
-  id: string;
+  id: number;
 }

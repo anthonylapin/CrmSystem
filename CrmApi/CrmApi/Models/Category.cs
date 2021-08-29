@@ -12,5 +12,7 @@ namespace CrmApi.Models
 
         public string UserId { get; set; }
         public User User { get; set; }
+
+        public IList<Position> Positions { get; set; }
     }
 }

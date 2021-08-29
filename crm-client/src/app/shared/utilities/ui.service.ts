@@ -6,5 +6,9 @@ export class UiService {
     alert(message);
   }
 
+  static confirmMessage(message: string): boolean {
+    return confirm(message);
+  }
+
   static initializeFloatingButton(ref: ElementRef) {}
 }

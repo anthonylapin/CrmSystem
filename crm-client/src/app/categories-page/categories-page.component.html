@@ -1,14 +1,23 @@
-<div *ngIf="!loading">
+<div *ngIf="categories$ | async as categories; else loader">
   <div class="d-flex bd-highlight mb-3">
     <div class="p-2 bd-highlight"><h3>Categories</h3></div>
     <div class="ms-auto p-2 bd-highlight">
       <button class="btn btn-secondary" routerLink="/categories/add">Add Category</button>
     </div>
   </div>
-  <ul class="list-group">
-    <li class="list-group-item list-group-item-action" *ngFor="let category of categories">
+  <div class="list-group" *ngIf="categories.length !== 0; else categoriesEmpty">
+    <a
+      class="list-group-item list-group-item-action"
+      [routerLink]="['/categories', category.id]"
+      *ngFor="let category of categories"
+    >
       {{ category.name }}
-    </li>
-  </ul>
+    </a>
+  </div>
+  <ng-template #categoriesEmpty>
+    <p class="text-center">No categories were added yet.</p>
+  </ng-template>
 </div>
-<app-loader *ngIf="loading"></app-loader>
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
