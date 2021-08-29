@@ -22,7 +22,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\Files\" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\21632d17-54a7-4230-8237-0b4990becf99.jfif" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\3a02cca4-8dd9-4b27-b3ac-1870fb578c1b.jfif" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\3e58624e-681d-4bdc-a06d-2c5d4d4e9470.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\41a912a5-ae4f-4761-a2c2-f7b2b60e33a3.jfif" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\48d1e126-d6a1-407b-9480-2458dd201c8b.jfif" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\966d5f53-8be0-4e8d-bd66-198989b3f45b.jfif" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\b33112de-f7fd-477e-a514-c71d7db7423c.jpg" />
     </ItemGroup>
 
 </Project>
