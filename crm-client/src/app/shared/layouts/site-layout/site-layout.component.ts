@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-site-layout',
@@ -8,25 +8,26 @@ import {Router} from "@angular/router";
   styleUrls: ['./site-layout.component.scss'],
 })
 export class SiteLayoutComponent implements AfterViewInit {
-  @ViewChild('floating') floatingRef : ElementRef;
-
   public showSideBar: boolean = false;
+  public fabBtnGroupActive: boolean = false;
   public sideBarLinks = [
-    {url: '/overview', name: 'Overview'},
-    {url: '/analytics', name: 'Analytics'},
-    {url: '/history', name: 'History'},
-    {url: '/add-order', name: 'Add New Order'},
-    {url: '/categories', name: 'Assortment'},
-  ]
+    { url: '/overview', name: 'Overview' },
+    { url: '/analytics', name: 'Analytics' },
+    { url: '/history', name: 'History' },
+    { url: '/orders', name: 'Add New Order' },
+    { url: '/categories', name: 'Assortment' },
+  ];
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngAfterViewInit(): void {
-
-  }
+  ngAfterViewInit(): void {}
 
   onSideNavToggle() {
     this.showSideBar = !this.showSideBar;
+  }
+
+  onFabBtnGroupToggle() {
+    this.fabBtnGroupActive = !this.fabBtnGroupActive;
   }
 
   async logout(event: Event) {

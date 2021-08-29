@@ -1,4 +1,4 @@
-import {ElementRef} from "@angular/core";
+import { ElementRef } from '@angular/core';
 
 export class UiService {
   // replace with some toast message in future
@@ -6,7 +6,5 @@ export class UiService {
     alert(message);
   }
 
-  static initializeFloatingButton(ref: ElementRef) {
-
-  }
+  static initializeFloatingButton(ref: ElementRef) {}
 }
