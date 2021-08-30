@@ -36,7 +36,7 @@ export class AuthService {
   login(user: IUser): Observable<{ token: string }> {
     return this.http.post<{ token: string }>('/api/auth/login', user).pipe(
       tap(({ token }) => {
-        localStorage.setItem(localStorageAuthTokenKey, `Bearer ${token}`);
+        localStorage.setItem(localStorageAuthTokenKey, token);
         this.setToken(token);
       })
     );

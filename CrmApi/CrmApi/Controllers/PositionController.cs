@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CrmApi.Controllers
 {
-    [Route("api/positions")]
+    [Route("api/categories/{categoryId:int}/positions")]
     [ApiController]
     public class PositionController : ControllerBase
     {
@@ -26,7 +26,6 @@ namespace CrmApi.Controllers
         }
 
         [HttpGet]
-        [Route("{category}")]
         [Authorize]
         public async Task<IActionResult> GetPositionByCategoryId(int categoryId)
         {
@@ -40,7 +39,7 @@ namespace CrmApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreatePosition(string name, double cost, int categoryId)
+        public async Task<IActionResult> CreatePosition(int categoryId, [FromBody] PositionModifyDto positionModifyDto)
         {
             var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
 
@@ -52,11 +51,17 @@ namespace CrmApi.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(User.Identity?.Name);
-
-            await _dbContext.Positions.AddAsync(new Position() { Name = name, Cost = cost, Category = category, User = user });
+            
+            var position = new Position()
+            {
+                Name = positionModifyDto.Name, Cost = positionModifyDto.Cost, Category = category, User = user
+            };
+            
+            await _dbContext.Positions.AddAsync(position);
+            
             await _dbContext.SaveChangesAsync();
 
-            return StatusCode(201);
+            return Ok(position);
         }
 
         [Route("{id:int}")]
@@ -76,8 +81,8 @@ namespace CrmApi.Controllers
             position.CategoryId = positionDto.CategoryId;
 
             await _dbContext.SaveChangesAsync();
-
-            return Ok(nameof(UpdatePosition));
+            
+            return Ok(position);
         }
 
         [Route("{id:int}")]

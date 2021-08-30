@@ -3,12 +3,86 @@
     <h5>Positions</h5>
   </div>
   <div class="ms-auto p-2 bd-highlight">
-    <button class="btn btn-secondary">Add Position</button>
+    <button class="btn btn-secondary" (click)="onOpenModal(content)">Add Position</button>
   </div>
 </div>
-<ul class="list-group">
-  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
-    <div class="ms-2 me-auto">Position</div>
-    <button class="btn btn-secondary"><i class="bi bi-trash-fill"></i></button>
-  </li>
-</ul>
+
+<div *ngIf="!loading; else loader">
+  <div class="list-group" *ngIf="positions.length !== 0; else empty">
+    <a
+      class="list-group-item list-group-item-action d-flex justify-content-between align-items-start position-item"
+      *ngFor="let position of positions"
+      (click)="onOpenModal(content, position)"
+    >
+      <div class="ms-2 me-auto position-item">
+        {{ position.name }}: <strong>${{ position.cost }}</strong>
+      </div>
+      <button class="btn btn-secondary" (click)="onDeletePosition($event, position)">
+        <i class="bi bi-trash-fill"></i>
+      </button>
+    </a>
+  </div>
+  <ng-template #empty>
+    <p class="text-center">No positions were created yet.</p>
+  </ng-template>
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
+
+<ng-template #content let-modal>
+  <form [formGroup]="form" (ngSubmit)="onSubmitPosition()">
+    <div class="modal-header">
+      <h5 class="modal-title">Add Position</h5>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.close()"
+        [disabled]="form.disabled"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3">
+        <label for="positionName" class="form-label">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="positionName"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': form.get('name')!.invalid && form.get('name')!.touched }"
+        />
+        <div
+          id="nameAlert"
+          class="form-text text-danger"
+          *ngIf="form.get('name')!.invalid && form.get('name')!.touched"
+        >
+          Position Name field should not be empty.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="positionCost" class="form-label">Cost</label>
+        <input
+          type="number"
+          min="1"
+          class="form-control"
+          id="positionCost"
+          formControlName="cost"
+          [ngClass]="{ 'is-invalid': form.get('cost')!.invalid && form.get('cost')!.touched }"
+        />
+        <div
+          id="costAlert"
+          class="form-text text-danger"
+          *ngIf="form.get('cost')!.invalid && form.get('cost')!.touched"
+        >
+          Enter correct cost amount. Minimum value is 1.
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close()" [disabled]="form.disabled">Close</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || form.disabled">Save changes</button>
+    </div>
+  </form>
+</ng-template>

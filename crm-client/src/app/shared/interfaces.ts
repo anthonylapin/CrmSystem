@@ -9,3 +9,10 @@ export interface ICategory {
   user?: string;
   id: number;
 }
+
+export interface IPosition {
+  id?: number;
+  categoryId: number;
+  name: string;
+  cost: number;
+}

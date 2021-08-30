@@ -25,19 +25,29 @@
           formControlName="name"
           [ngClass]="{ 'is-invalid': form.get('name')!.invalid && form.get('name')!.touched }"
         />
-        <div id="nameAlert" class="form-text text-danger" *ngIf="form.get('name')!.invalid && form.get('name')!.touched">
+        <div
+          id="nameAlert"
+          class="form-text text-danger"
+          *ngIf="form.get('name')!.invalid && form.get('name')!.touched"
+        >
           <span *ngIf="form.get('name')!.errors?.required">Category Name field should not be empty.</span>
         </div>
       </div>
       <div class="mb-3">
         <label for="categoryImage" class="form-label">Select Image</label>
-        <input class="form-control" type="file" id="categoryImage" [disabled]="form.disabled" (change)="onFileUpload($event)" />
+        <input
+          class="form-control"
+          type="file"
+          id="categoryImage"
+          [disabled]="form.disabled"
+          (change)="onFileUpload($event)"
+        />
       </div>
     </div>
     <div class="col-6">
-      <img class="responsive-img" class="category-logo responsive-image" [src]="imagePreview" *ngIf="imagePreview">
+      <img class="responsive-img" class="category-logo responsive-image" [src]="imagePreview" *ngIf="imagePreview" />
     </div>
   </div>
   <button type="submit" class="btn btn-success" [disabled]="form.invalid || form.disabled">Save Changes</button>
 </form>
-<app-positions-form></app-positions-form>
+<app-positions-form *ngIf="categoryId" [categoryId]="categoryId"></app-positions-form>

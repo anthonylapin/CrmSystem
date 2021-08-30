@@ -47,11 +47,11 @@ namespace CrmApi.Controllers
         public async Task<IActionResult> Authenticate([FromBody] UserDto user)
         {
             if (await _authManager.ValidateUser(user))
-                return Ok(new {Token = await _authManager.CreateToken()});
+                return Ok(new {Token = $"Bearer {await _authManager.CreateToken()}"});
 
-            _logger.LogWarning($"{nameof(Authenticate)}: Authentication failed for user {user.Email}. Wrong credentials");
+            _logger.LogWarning($"{nameof(Authenticate)}: Authentication failed for user {user.Email}. " +
+                               "Wrong credentials");
             return Unauthorized();
-
         }
 
         [Authorize]
