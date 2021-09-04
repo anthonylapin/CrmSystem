@@ -71,9 +71,13 @@ namespace CrmApi.Controllers
 
             var maxOrder = lastOrder?.OrderNumber ?? 0;
 
+            var orderItems = orderDto.OrderItems
+                .Select(oi => new OrderItem {Name = oi.Name, Quantity = oi.Quantity, Cost = oi.Cost})
+                .ToList();
+
             var order = new Order()
             {
-                OrderItems = orderDto.OrderItems,
+                OrderItems = orderItems,
                 OrderNumber = maxOrder + 1,
                 UserId = user.Id
             };
@@ -81,7 +85,7 @@ namespace CrmApi.Controllers
             await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
 
-            return Ok(order);
+            return StatusCode(201, order);
         }
     }
 }

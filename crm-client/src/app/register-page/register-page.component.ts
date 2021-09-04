@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../shared/services/auth.service';
 import { UiService } from '../shared/utilities/ui.service';
+import { ToastService } from '../shared/services/toast.service';
 
 @Component({
   selector: 'app-register-page',
@@ -13,7 +14,7 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   form: FormGroup;
   aSub: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastService: ToastService) {}
 
   ngOnDestroy(): void {
     if (this.aSub) {
@@ -42,7 +43,7 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
         const errMessage = Object.entries(error.error).reduce((acc, [k, v]) => {
           return `${acc} ${(v as string[])[0]}`;
         }, '');
-        UiService.alertMessage(errMessage ? errMessage : 'Something went wrong.');
+        this.toastService.showDanger(errMessage ? errMessage : 'Something went wrong.');
         this.form.enable();
       }
     );

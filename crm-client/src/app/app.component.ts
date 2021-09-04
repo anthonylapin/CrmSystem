@@ -3,7 +3,10 @@ import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
+  template: `
+    <router-outlet></router-outlet>
+    <app-toast></app-toast>
+  `,
 })
 export class AppComponent implements OnInit {
   constructor(private auth: AuthService) {}

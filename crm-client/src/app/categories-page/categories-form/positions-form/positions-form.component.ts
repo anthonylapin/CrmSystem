@@ -4,6 +4,7 @@ import { IPosition } from '../../../shared/interfaces';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UiService } from '../../../shared/utilities/ui.service';
+import { ToastService } from '../../../shared/services/toast.service';
 
 const initialModifyPositionFormState = {
   name: null,
@@ -22,7 +23,11 @@ export class PositionsFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   positionId: number | null = null;
 
-  constructor(private positionsService: PositionsService, private modalService: NgbModal) {}
+  constructor(
+    private positionsService: PositionsService,
+    private modalService: NgbModal,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -75,20 +80,20 @@ export class PositionsFormComponent implements OnInit, OnDestroy {
           this.positions.splice(index, 1);
         },
         (error) => {
-          UiService.alertMessage(error.error.message);
+          this.toastService.showDanger(error.error.message);
         }
       );
     }
   }
 
   private onModifyPositionErrorCallback(error: any) {
-    UiService.alertMessage(error.error.message);
+    this.toastService.showDanger(error.error.message);
   }
 
   private onCreatePosition(position: IPosition) {
     this.positionsService.create(position).subscribe(
       (newPosition) => {
-        UiService.alertMessage('Position was created');
+        this.toastService.show('Position was created');
         this.positions.push(newPosition);
       },
       this.onModifyPositionErrorCallback,
@@ -105,7 +110,7 @@ export class PositionsFormComponent implements OnInit, OnDestroy {
       (newPosition) => {
         const index = this.positions.findIndex((p) => p.id === position.id);
         this.positions[index] = newPosition;
-        UiService.alertMessage('Position was updated.');
+        this.toastService.show('Position was updated');
       },
       this.onModifyPositionErrorCallback,
       () => {

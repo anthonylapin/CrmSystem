@@ -1,0 +1,43 @@
+<div *ngIf="positions$ | async as positions; else loader">
+  <table class="table" *ngIf="positions.length !== 0; else empty">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Cost</th>
+        <th scope="col">Quantity</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let position of positions">
+        <td>{{ position.name }}</td>
+        <td>{{ position.cost }}$</td>
+        <td>
+          <input type="number" class="form-control" [(ngModel)]="position.quantity" aria-describedby="quantityAlert" />
+          <div id="passwordAlert" class="form-text text-danger" *ngIf="!position.quantity || position.quantity < 1">
+            Quantity must be greater or equal to 1.
+          </div>
+        </td>
+        <td>
+          <div class="float-end">
+            <button
+              class="btn btn-primary"
+              (click)="onAddToOrder(position)"
+              [disabled]="!position.quantity || position.quantity < 1"
+            >
+              Add
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #empty>
+    <div class="text-center">
+      <p>This category has no positions yet.</p>
+    </div>
+  </ng-template>
+</div>
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>

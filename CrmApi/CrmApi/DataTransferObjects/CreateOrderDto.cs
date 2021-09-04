@@ -8,7 +8,6 @@ namespace CrmApi.DataTransferObjects
 {
     public class CreateOrderDto
     {
-        public string UserId { get; set; }
-        public IList<OrderItem> OrderItems { get; set; }
+        public IList<CreateOrderItemDto> OrderItems { get; set; }
     }
 }

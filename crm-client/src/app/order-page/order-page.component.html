@@ -1,1 +1,64 @@
-<p>order-page works!</p>
+<div class="d-flex bd-highlight mb-3">
+  <div class="p-2 bd-highlight">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/orders">Order</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page" *ngIf="!isRoot">Add position to order</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="ms-auto p-2 bd-highlight">
+    <button class="btn btn-secondary" (click)="onOpenModal(content)" [disabled]="orderService.orderItems.length === 0">
+      Complete
+    </button>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Your Order</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()" [disabled]="loading"></button>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Cost</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let orderItem of orderService.orderItems">
+          <td>{{ orderItem.name }}</td>
+          <td>{{ orderItem.quantity }}</td>
+          <td>{{ orderItem.cost }}</td>
+          <td><i class="bi bi-trash-fill delete-icon" (click)="onRemoveOrderItem(orderItem)"></i></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="mt-2 d-flex flex-row-reverse bd-highlight">
+      <div class="p-2 bd-highlight">
+        <p>
+          Overall cost: <b>{{ orderService.price }}$</b>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()" [disabled]="loading">Cancel</button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="onCompleteOrder()"
+      [disabled]="orderService.orderItems.length === 0 || loading"
+    >
+      Submit
+    </button>
+  </div>
+</ng-template>
+
+<router-outlet></router-outlet>

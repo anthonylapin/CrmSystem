@@ -4,6 +4,7 @@ import { AuthService } from '../shared/services/auth.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UiService } from '../shared/utilities/ui.service';
+import { ToastService } from '../shared/services/toast.service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,7 +17,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   accessDenied: boolean = false;
   sessionExpired: boolean = false;
 
-  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -42,7 +48,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.aSub = this.auth.login(this.form.value).subscribe(
       () => this.router.navigate(['/overview']),
       () => {
-        UiService.alertMessage('Invalid credentials');
+        this.toastService.showDanger('Invalid credentials');
         this.form.enable();
       }
     );

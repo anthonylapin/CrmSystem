@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { CategoriesService } from '../../shared/services/categories.service';
 import { UiService } from '../../shared/utilities/ui.service';
 import { ICategory } from '../../shared/interfaces';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-categories-form',
@@ -19,7 +20,12 @@ export class CategoriesFormComponent implements OnInit {
   private image?: File;
   public imagePreview: string | ArrayBuffer | null = '';
 
-  constructor(private route: ActivatedRoute, private categoriesService: CategoriesService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private categoriesService: CategoriesService,
+    private router: Router,
+    private toastService: ToastService
+  ) {}
 
   private initializeForm(category: ICategory | null) {
     if (category) {
@@ -52,7 +58,7 @@ export class CategoriesFormComponent implements OnInit {
           this.initializeForm(category);
           this.form.enable();
         },
-        (error) => UiService.alertMessage(error.error.message)
+        (error) => this.toastService.showDanger(error.error.message)
       );
   }
 
@@ -84,16 +90,16 @@ export class CategoriesFormComponent implements OnInit {
     obs$.subscribe(
       async (category) => {
         if (this.isNew) {
-          UiService.alertMessage('Category was created successfully!!');
+          this.toastService.show('Category was created successfully!!');
           await this.router.navigate([`/categories/${category.id}`]);
         } else {
           this.initializeForm(category);
           this.form.enable();
-          UiService.alertMessage('Changes were saved successfully!');
+          this.toastService.show('Changes were saved successfully!');
         }
       },
       (error) => {
-        UiService.alertMessage(error.error.message);
+        this.toastService.showDanger(error.error.message);
         this.form.enable();
       }
     );
@@ -103,10 +109,10 @@ export class CategoriesFormComponent implements OnInit {
     if (UiService.confirmMessage('Are you sure you want to delete this category?') && this.categoryId) {
       this.categoriesService.delete(this.categoryId).subscribe(
         () => {
-          UiService.alertMessage('Category was deleted successfully!');
+          this.toastService.show('Category was deleted successfully!');
         },
         (error) => {
-          UiService.alertMessage(error.error.message);
+          this.toastService.showDanger(error.error.message);
         },
         () => this.router.navigate(['/categories'])
       );
