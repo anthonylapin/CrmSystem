@@ -35,3 +35,13 @@ export interface IOrderItem {
   cost: number;
   id: number;
 }
+
+export interface IOrderViewModel extends IOrder {
+  cost: number;
+}
+
+export interface IFilter {
+  start?: Date;
+  end?: Date;
+  order?: number;
+}

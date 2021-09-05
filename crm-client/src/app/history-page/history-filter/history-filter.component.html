@@ -1,0 +1,30 @@
+<div class="d-flex flex-row bd-highlight mb-3">
+  <div class="p-2 bd-highlight">
+    <label for="order-number">Order #</label>
+    <input id="order-number" type="number" class="form-control" placeholder="Order #" [(ngModel)]="order" />
+  </div>
+  <div class="p-2 bd-highlight">
+    <label for="start-date">Start date</label>
+    <input id="start-date" type="date" class="form-control" [(ngModel)]="start" (change)="validate()" />
+  </div>
+  <div class="p-2 bd-highlight">
+    <label for="end-date">End date</label>
+    <input id="end-date" type="date" class="form-control" [(ngModel)]="end" (change)="validate()" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-auto">
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="submitFilter()"
+      [disabled]="!isValid"
+      aria-describedby="dateHelp"
+    >
+      Apply Filter
+    </button>
+  </div>
+  <div class="col-auto" *ngIf="!isValid">
+    <span id="dateHelp" class="text-danger">Start date must be smaller than end date.</span>
+  </div>
+</div>

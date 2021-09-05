@@ -22,6 +22,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrderCategoriesComponent } from './order-page/order-categories/order-categories.component';
 import { OrderPositionsComponent } from './order-page/order-positions/order-positions.component';
 import { ToastComponent } from './shared/components/toast/toast.component';
+import { HistoryListComponent } from './history-page/history-list/history-list.component';
+import { HistoryFilterComponent } from './history-page/history-filter/history-filter.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { ToastComponent } from './shared/components/toast/toast.component';
     OrderCategoriesComponent,
     OrderPositionsComponent,
     ToastComponent,
+    HistoryListComponent,
+    HistoryFilterComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, NgbModule],
   providers: [

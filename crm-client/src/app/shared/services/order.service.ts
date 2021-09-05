@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IOrderItem, IPositionToAdd } from '../interfaces';
+import { OrderUtil } from '../utilities/order.util';
 
 const orderCartLocalStorageKey = 'order-cart';
 
@@ -46,7 +47,7 @@ export class OrderService {
   }
 
   get price(): number {
-    return this.orderItems.reduce((sum, currItem) => sum + currItem.quantity * currItem.cost, 0);
+    return OrderUtil.computeOverallCost(this.orderItems);
   }
 
   private saveInLocalStorage() {

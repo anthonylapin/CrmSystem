@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace CrmApi.Models
+namespace CrmApi.DataTransferObjects
 {
-    public class OrderQueryDto
+    public class OrderFilterQueryDto
     {
-        public int Offset { get; set; }
-        public int Limit { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public int? Order { get; set; }

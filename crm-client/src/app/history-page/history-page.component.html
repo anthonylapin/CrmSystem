@@ -1,1 +1,28 @@
-<p>history-page works!</p>
+<div class="d-flex bd-highlight mb-3">
+  <div class="p-2 bd-highlight"><h3>Orders History</h3></div>
+  <div class="ms-auto p-2 bd-highlight">
+    <button type="button" class="btn btn-success" ngbTooltip="Open filter" placement="left" (click)="onToggleFilter()">
+      <i class="bi bi-filter-circle"></i>
+    </button>
+  </div>
+</div>
+
+<app-history-filter *ngIf="showFilter" (onFilter)="applyFilter($event)"></app-history-filter>
+<div *ngIf="!loading; else loader">
+  <div *ngIf="count > 0; else empty">
+    <app-history-list [orders]="orders"></app-history-list>
+    <button type="button" class="btn btn-secondary me-2" (click)="loadPreviousPage()" *ngIf="offset !== 0">
+      Previous Page
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="loadNextPage()" *ngIf="hasNextPage">Next Page</button>
+  </div>
+  <ng-template #empty>
+    <div class="text-center">
+      <p>No orders created yet.</p>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>

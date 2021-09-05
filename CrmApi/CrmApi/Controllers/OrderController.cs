@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CrmApi.Data;
 using CrmApi.DataTransferObjects;
@@ -28,33 +30,29 @@ namespace CrmApi.Controllers
 
         [HttpGet]
         [Authorize]
+        [Route("count")]
+        public IActionResult GetOrdersCount([FromQuery] OrderFilterQueryDto orderFilterQueryDto)
+        {
+            var count = _dbContext.Orders
+                .ToList()
+                .Count(o => GetOrderFilterResult(o, orderFilterQueryDto));
+            return Ok(count);
+        }
+
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllOrders([FromQuery] OrderQueryDto orderQueryDto)
         {
             var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
-            var orderQueryPredicates = new List<Predicate<Order>>() { o => o.UserId == user.Id };
-
-            if (orderQueryDto.Start != null)
-            {
-                orderQueryPredicates.Add(o => o.Date >= orderQueryDto.Start);
-            }
-
-            if (orderQueryDto.End != null)
-            {
-                orderQueryPredicates.Add(o => o.Date <= orderQueryDto.End);
-            }
-
-            if (orderQueryDto.Order != null)
-            {
-                orderQueryPredicates.Add(o => o.OrderNumber == orderQueryDto.Order);
-            }
-
             var orders = _dbContext.Orders
                 .Include(o => o.OrderItems)
-                .Where(o => orderQueryPredicates.Aggregate(true ,(result, next) => result && next(o)))
+                .Where(o => o.UserId == user.Id)
+                .OrderByDescending(o => o.Date)
                 .Skip(orderQueryDto.Offset)
                 .Take(orderQueryDto.Limit)
-                .OrderByDescending(o => o.Date);
+                .ToList()
+                .Where(o => GetOrderFilterResult(o, orderQueryDto));
 
             return Ok(orders);
         }
@@ -86,6 +84,28 @@ namespace CrmApi.Controllers
             await _dbContext.SaveChangesAsync();
 
             return StatusCode(201, order);
+        }
+        
+        private bool GetOrderFilterResult(Order order, OrderFilterQueryDto orderFilterQueryDto)
+        {
+            var orderQueryPredicates = new List<Func<Order, bool>>();
+
+            if (orderFilterQueryDto.Start != null)
+            {
+                orderQueryPredicates.Add(o => o.Date >= orderFilterQueryDto.Start);
+            }
+
+            if (orderFilterQueryDto.End != null)
+            {
+                orderQueryPredicates.Add(o => o.Date <= orderFilterQueryDto.End?.AddDays(1));
+            }
+
+            if (orderFilterQueryDto.Order != null)
+            {
+                orderQueryPredicates.Add(o => o.OrderNumber == orderFilterQueryDto.Order);
+            }
+
+            return orderQueryPredicates.Aggregate(true, (result, next) => result && next(order));
         }
     }
 }

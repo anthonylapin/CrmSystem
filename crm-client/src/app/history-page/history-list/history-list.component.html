@@ -1,0 +1,58 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Time</th>
+      <th scope="col">Sum</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders">
+      <th>{{ order.orderNumber }}</th>
+      <td>{{ order.date | date: 'longDate' }}</td>
+      <td>{{ order.date | date: 'mediumTime' }}</td>
+      <td>{{ order.cost }}$</td>
+      <td>
+        <div class="text-center">
+          <button type="button" class="btn btn-secondary" (click)="onOpenModal(content, order)">
+            <i class="bi bi-box-arrow-up-right"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #content let-modal>
+  <div *ngIf="selectedOrder">
+    <div class="modal-header">
+      <h5 class="modal-title">Order #{{ selectedOrder.orderNumber }}</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orderItem of selectedOrder.orderItems">
+            <td>{{ orderItem.name }}</td>
+            <td>{{ orderItem.quantity }}</td>
+            <td>{{ orderItem.cost }}$</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="p-2 bd-highlight">
+          Overall price: <b>{{ selectedOrder.cost }}$</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
