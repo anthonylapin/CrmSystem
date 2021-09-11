@@ -12,7 +12,6 @@ export class SiteLayoutComponent implements AfterViewInit {
   public fabBtnGroupActive: boolean = false;
   public sideBarLinks = [
     { url: '/overview', name: 'Overview' },
-    { url: '/analytics', name: 'Analytics' },
     { url: '/history', name: 'History' },
     { url: '/orders', name: 'Add New Order' },
     { url: '/categories', name: 'Assortment' },

@@ -1,0 +1,21 @@
+@import '~bootstrap/scss/bootstrap';
+
+.analytics-card {
+  color: $white;
+}
+
+.revenue-card {
+  background-color: $primary;
+
+  .percent-text {
+    color: $success;
+  }
+}
+
+.orders-card {
+  background-color: $warning;
+
+  .percent-text {
+    color: $danger;
+  }
+}

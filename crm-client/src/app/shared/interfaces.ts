@@ -45,3 +45,26 @@ export interface IFilter {
   end?: Date;
   order?: number;
 }
+
+export interface IAnalyticsOverviewItem {
+  percent: number;
+  compare: number;
+  yesterday: number;
+  isHigher: boolean;
+}
+
+export interface IAnalyticsOverview {
+  gain: IAnalyticsOverviewItem;
+  orders: IAnalyticsOverviewItem;
+}
+
+export interface IAnalyticsChartItem {
+  gain: number;
+  order: number;
+  label: string;
+}
+
+export interface IAnalytics {
+  average: number;
+  chart: IAnalyticsChartItem[];
+}

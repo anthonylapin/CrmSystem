@@ -1,1 +1,39 @@
-<p>overview-page works!</p>
+<h3>Yesterday Overview ({{ yesterday | date: 'MMMM d, y' }})</h3>
+<div class="m-4 row" *ngIf="overview$ | async as overview; else loader">
+  <div class="col">
+    <div class="card me-4 analytics-card revenue-card">
+      <div class="card-body">
+        <h5 class="card-title">Revenue:</h5>
+        <div class="mt-2">
+          <h3>{{ overview.gain.yesterday }}$</h3>
+        </div>
+        <div class="mt-2 percent-text">
+          <h3>{{ overview.gain.percent.toFixed(2) }}%</h3>
+        </div>
+        <p class="card-text">
+          Your order revenue is {{ overview.gain.percent.toFixed(2) }}%
+          {{ overview.gain.isHigher ? 'higher' : 'lower' }} than average: {{ overview.gain.compare.toFixed(2) }}$ per
+          day
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card analytics-card orders-card">
+      <div class="card-body">
+        <h5 class="card-title">Orders:</h5>
+        <div class="mt-2">
+          <h3>{{ overview.orders.yesterday }}</h3>
+        </div>
+        <div class="mt-2 percent-text">
+          <h3>{{ overview.orders.percent.toFixed(2) }}%</h3>
+        </div>
+        <p class="card-text">
+          Your number of order is {{ overview.orders.percent.toFixed(2) }}%
+          {{ overview.orders.isHigher ? 'higher' : 'lower' }} than average: {{ overview.orders.compare }} per day
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loader><app-loader></app-loader></ng-template>
